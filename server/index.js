@@ -1,5 +1,5 @@
 import express from 'express';
-import { PORT, mongoDBURL } from './config.js';
+import { PORT, mongoDBURL } from './config/config.js';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -7,6 +7,8 @@ const app = express();
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+app.post()
 
 mongoose
   .connect(mongoDBURL)
