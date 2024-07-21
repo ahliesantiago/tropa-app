@@ -1,6 +1,11 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import { InterestModel } from './InterestModel.js';
 
 const userSchema = new mongoose.Schema({
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   username: {
     type: String,
     required: true,
@@ -19,7 +24,7 @@ const userSchema = new mongoose.Schema({
   nickname: String,
   emailAddress: {
     type: String,
-    required: true,
+    required: true, 
     unique: true,
   },
   phoneNumber: {
@@ -40,6 +45,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     minLength: 10,
   },
+  interests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'InterestModel',
+  }],
+  gender: String,
+  pronouns: String,
+  preference: String,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -50,5 +62,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const UserModel = mongoose.model('users', userSchema);
-module.exports = UserModel;
+export const UserModel = mongoose.model('users', userSchema);

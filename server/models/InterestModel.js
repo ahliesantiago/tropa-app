@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import { InterestCategoryModel } from './InterestCategoryModel.js';
 
 const interestSchema = new mongoose.Schema({
   interestName: {
@@ -6,6 +7,10 @@ const interestSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  categories: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'InterestCategoryModel',
+  }],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -15,3 +20,5 @@ const interestSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+export const InterestModel = mongoose.model('interests', interestSchema);
