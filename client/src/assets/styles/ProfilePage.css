@@ -1,0 +1,11 @@
+.gallery{
+  max-height: 400px;
+  img{
+    max-height: 400px;
+  }
+  .mini-gallery{
+    img{
+      max-height: 165px;
+    }
+  }
+}
