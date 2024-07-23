@@ -3,13 +3,18 @@ import axios from 'axios';
 
 import Spinner from '../Spinner';
 
-const CreateInterest = ({handleCancel}) => {
+const UpdateInterests = ({action, interest, handleCancel, refreshInterests}) => {
   const [categories, setCategories] = React.useState([]);
   const [newInterestName, setNewInterestName] = React.useState('');
   const [newInterestCategories, setNewInterestCategories] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
+    if(action === 'edit'){
+      setNewInterestName(interest.interestName);
+      setNewInterestCategories(interest.categories);
+    }
+
     axios.get('http://localhost:8080/categories')
     .then((response) => {
       setCategories(response.data.data);
@@ -28,7 +33,9 @@ const CreateInterest = ({handleCancel}) => {
     })
     .then(() => {
       setLoading(false);
-      window.location.reload();
+      refreshInterests();
+      setNewInterestName('');
+      setNewInterestCategories([]);
     })
     .catch((error) => {
       setLoading(false);
@@ -37,9 +44,36 @@ const CreateInterest = ({handleCancel}) => {
     });
   };
 
+  const handleEditInterest = (e) => {
+    e.preventDefault();
+    axios.put(`http://localhost:8080/interests/${interest._id}`, {
+      interestName: newInterestName,
+      categories: newInterestCategories
+    })
+    .then(() => {
+      setLoading(false);
+      refreshInterests();
+      handleCancel();
+    })
+    .catch((error) => {
+      setLoading(false);
+      alert("Error updating interest, please check console for more details.");
+      console.log(error);
+    });
+  };
+
+  const handleSelectCategories = (e) => {
+    if(newInterestCategories.includes(e.target.value)){
+      setNewInterestCategories(newInterestCategories.filter(category => category !== e.target.value));
+    }else{
+      setNewInterestCategories([...newInterestCategories, e.target.value]);
+    }
+  }
+
   return (
     <div className='flex flex-col gap-y-4'>
-      <h2 className='text-3xl'>Add New Interest</h2>
+      {action === 'add' && <h2 className='text-3xl'>Add New Interest</h2>}
+      {action === 'edit' && <h2 className='text-3xl'>Edit Interest</h2>}
       {loading && <Spinner />}
       <form className='flex flex-col gap-y-4'>
         <div className='flex flex-col gap-y-2'>
@@ -48,7 +82,7 @@ const CreateInterest = ({handleCancel}) => {
             type='text'
             id='interestName'
             className='border border-slate-400 rounded-md p-2'
-            value={newInterestName}
+            value = {newInterestName}
             onChange={(e) => setNewInterestName(e.target.value)}
           />
         </div>
@@ -58,7 +92,7 @@ const CreateInterest = ({handleCancel}) => {
             id='interestCategories'
             className='border border-slate-400 rounded-md p-2'
             value={newInterestCategories}
-            onChange={(e) => setNewInterestCategories([...newInterestCategories, e.target.value])}
+            onChange={handleSelectCategories}
             multiple
           >
             {categories.map((category, index) => (
@@ -76,9 +110,9 @@ const CreateInterest = ({handleCancel}) => {
             </button>
             <button
               className='bg-blue-500 text-white rounded-md p-2 ml-2 my-2 w-20'
-              onClick={handleAddInterest}
+              onClick={action === 'add' ? handleAddInterest : handleEditInterest}
             >
-              Add
+              {action === 'add' ? "Add" : "Update"}
             </button>
           </div>
         </div>
@@ -87,4 +121,4 @@ const CreateInterest = ({handleCancel}) => {
   )
 }
 
-export default CreateInterest
+export default UpdateInterests;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { AiOutlineEdit } from 'react-icons/ai';
@@ -7,7 +6,7 @@ import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 
 import Navbar from '../components/Layout/Navbar';
 import Spinner from '../components/Spinner';
-import CreateInterest from '../components/Admin/CreateInterest';
+import UpdateInterests from '../components/Admin/UpdateInterests';
 import DeleteInterest from '../components/Admin/DeleteInterest';
 
 const AdminPage = () => {
@@ -21,7 +20,7 @@ const AdminPage = () => {
     setAction();
   };
 
-  React.useEffect(() => {
+  const fetchInterests = () => {
     setLoading(true);
     axios.all([
       axios.get('http://localhost:8080/interests'),
@@ -36,6 +35,10 @@ const AdminPage = () => {
       console.log(error);
       setLoading(false);
     });
+  };
+
+  React.useEffect(() => {
+    fetchInterests();
   }, []);
 
   return (
@@ -51,7 +54,8 @@ const AdminPage = () => {
 
       {action && (
         <div className="modal p-4 m-4 border border-slate-400 rounded-lg shadow-lg">
-          {action === 'add' && <CreateInterest handleCancel={handleCancel} />}
+          {action === 'add' && <UpdateInterests action="add" handleCancel={handleCancel} refreshInterests={fetchInterests} />}
+          {action === 'edit' && <UpdateInterests action="edit" handleCancel={handleCancel} interest={selectedInterest} refreshInterests={fetchInterests} />}
           {action === 'delete' && <DeleteInterest interest={selectedInterest} handleCancel={handleCancel} />}
         </div>
       )}
@@ -118,9 +122,13 @@ const AdminPage = () => {
                   }).join(', ')}</td>
                   <td>
                     <div className='flex justify-center gap-x-4'>
-                      <Link to={`interests/${interest._id}/edit`}>
-                        <AiOutlineEdit className='text-2xl text-yellow-600' />
-                      </Link>
+                      <AiOutlineEdit
+                        className='text-2xl text-yellow-600'
+                        onClick={() => {
+                          setAction('edit');
+                          setSelectedInterest(interest);
+                        }}
+                      />
                       <MdOutlineDelete
                         onClick={() => {
                           setAction('delete');
