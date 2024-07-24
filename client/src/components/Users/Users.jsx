@@ -21,7 +21,7 @@ const Users = () => {
     {users.map((user) => (
       <div key={user._id} className='UserCard rounded-lg bg-orange-100 w-60 inline-block text-center m-2 p-3'>
         <a href={`/profile/${user.username}`}>@{user.username}</a>
-        <p>{user.email}</p>
+        <img src="../../assets/images/PlaceholderGirl.jpg" alt="" />
       </div>
     ))}
     </div>

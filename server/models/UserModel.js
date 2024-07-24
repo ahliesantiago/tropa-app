@@ -52,6 +52,9 @@ const userSchema = new mongoose.Schema({
   gender: String,
   pronouns: String,
   preference: String,
+  images: [{
+    type: String,
+  }],
   createdAt: {
     type: Date,
     default: Date.now,
