@@ -4,7 +4,6 @@ import axios from 'axios';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 
-import Navbar from '../components/Layout/Navbar';
 import Spinner from '../components/Spinner';
 import UpdateInterests from '../components/Admin/UpdateInterests';
 import DeleteInterest from '../components/Admin/DeleteInterest';
@@ -43,8 +42,7 @@ const AdminPage = () => {
 
   return (
     <>
-    <h1>Admin Page</h1>
-    <Navbar />
+    <h1>Admin Page WIP</h1>
 
     <div className='p-4'>
       <div className='flex justify-between items-center'>

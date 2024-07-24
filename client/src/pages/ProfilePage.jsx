@@ -51,7 +51,6 @@ const ProfilePage = () => {
 
   return (
     <div className='p-4'>
-      <Navbar />
       {loading ? (
         <Spinner />
       ) : (
