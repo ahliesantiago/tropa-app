@@ -8,23 +8,23 @@ const userSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    required: true,
+    required: [true, "Username required"],
     minLength: 6,
     unique: true,
   },
   firstName: {
     type: String,
-    required: true,
+    required: [true, "First name required"],
   },
   middleName: String,
   lastName: {
     type: String,
-    required: true,
+    required: [true, "Last name required"],
   },
   nickname: String,
   emailAddress: {
     type: String,
-    required: true, 
+    required: [true, "Email address required"], 
     unique: true,
   },
   phoneNumber: {
@@ -33,12 +33,12 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Password required"],
     minLength: 6,
   },
   birthday: {
     type: Date,
-    required: true,
+    required: [true, "You need to be at least 18 years old to join"],
   },
   location: String,
   about: {
@@ -49,9 +49,31 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'InterestModel',
   }],
-  gender: String,
-  pronouns: String,
-  preference: String,
+  gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Trans', 'Genderqueer', 'Other'],
+  },
+  pronouns: {
+    type: String,
+    // enum: ['He/him', 'She/her', 'They/them', 'Other']
+  },
+  sexuality: {
+    type: String,
+    // enum: ['Unknown', 'Heterosexual', 'Homosexual', 'Bisexual', 'Asexual', 'Pansexual', 'Queer', 'Other'],
+  },
+  beliefReligion: {
+    type: String,
+    // enum: ['Atheist', 'Buddhist', 'Christian', 'Hindu', 'Islam', 'Jewish', 'Muslim', 'Sikh', 'Other'],
+  },
+  beliefIsLgbtFriendly: Boolean,
+  beliefFood: {
+    type: String,
+    // enum: ['No preference', 'Vegetarian', 'Vegan', 'Kosher', 'Halal', 'Other'],
+  },
+  beliefPolitics: {
+    type: String,
+    // enum: ['Liberal', 'Conservative', 'Moderate', 'Apolitical', 'Other'],
+  },
   images: [{
     type: String,
   }],
@@ -63,6 +85,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+userSchema.pre('save', async function () {
+  this.password = await bcrypyt.hash(this.password, 10);
 });
 
 export const UserModel = mongoose.model('users', userSchema);
