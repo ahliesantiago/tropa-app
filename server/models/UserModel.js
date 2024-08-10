@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { InterestModel } from './InterestModel.js';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   isAdmin: {
@@ -30,6 +31,7 @@ const userSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     unique: true,
+    sparse: true
   },
   password: {
     type: String,
@@ -38,7 +40,8 @@ const userSchema = new mongoose.Schema({
   },
   birthday: {
     type: Date,
-    required: [true, "You need to be at least 18 years old to join"],
+    required: [true, "Birthday required, minimum age is 18 years old"],
+    // "You need to be at least 18 years old to join"
   },
   location: String,
   about: {
@@ -88,7 +91,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function () {
-  this.password = await bcrypyt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 export const UserModel = mongoose.model('users', userSchema);

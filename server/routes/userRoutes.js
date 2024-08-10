@@ -63,17 +63,62 @@ router.post('/new', async(req, res) => {
       isAdmin: req.body.isAdmin,
       username: req.body.username,
       firstName: req.body.firstName,
+      middleName: req.body.middleName,
       lastName: req.body.lastName,
       nickname: req.body.nickname,
       emailAddress: req.body.emailAddress,
-      phoneNumber: req.body.phoneNumber,
       password: req.body.password,
-      birthday: req.body.birthday,
+      birthday: new Date(req.body.birthday),
       location: req.body.location,
-      about: req.body.about
+      about: req.body.about,
+      interests: req.body.interests,
+      gender: req.body.gender,
+      pronouns: req.body.pronouns,
+      sexuality: req.body.sexuality,
+      beliefReligion: req.body.beliefReligion,
+      beliefIsLgbtFriendly: req.body.beliefIsLgbtFriendly,
+      beliefFood: req.body.beliefFood,
+      beliefPolitics: req.body.beliefPolitics
     }
     const user = await UserModel.create(newUser);
     return res.status(201).send(user)
+  }catch(error){
+    console.log(error.message);
+    res.status(500).send({message: error.message});
+  }
+});
+
+/**
+ * This route will update a user.
+**/
+router.put('/:id', async (req, res) => {
+  try{
+    if(!req.body){
+      return res.status(400).send({message: 'Content cannot be empty'});
+    }
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {
+      firstName: req.body.firstName,
+      middleName: req.body.middleName,
+      lastName: req.body.lastName,
+      nickname: req.body.nickname,
+      phoneNumber: req.body.phoneNumber,
+      location: req.body.location,
+      about: req.body.about,
+      interests: req.body.interests,
+      gender: req.body.gender,
+      pronouns: req.body.pronouns,
+      sexuality: req.body.sexuality,
+      beliefReligion: req.body.beliefReligion,
+      beliefIsLgbtFriendly: req.body.beliefIsLgbtFriendly,
+      beliefFood: req.body.beliefFood,
+      beliefPolitics: req.body.beliefPolitics,
+      images: req.body.images,
+      updatedAt: Date.now()
+    });
+    if(!user){
+      return res.status(404).send({message: 'User not found'});
+    }
+    return res.status(200).send(user);
   }catch(error){
     console.log(error.message);
     res.status(500).send({message: error.message});
