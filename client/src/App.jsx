@@ -1,41 +1,37 @@
-/*eslint-disable-next-line no-unused-vars */
-import React from 'react'
-import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from "react-router-dom"
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider
+} from "react-router-dom"
 
-import SessionContext from './contexts/SessionContext'
 import HomePage from './pages/HomePage'
 import AdminPage from './pages/AdminPage'
+import AuthPage from './pages/Auth/AuthPage'
 import ProfilePage from './pages/ProfilePage'
+import DashboardPage from './pages/DashboardPage'
 import NotFound from './pages/NotFound'
 import MainLayout from './components/Layout/MainLayout'
-import Auth from './components/Auth/Auth'
 import NewProfile from './components/Profile/NewProfile'
+import Logout from './components/Auth/Logout'
 
-// const storedSession = JSON.parse(localStorage.getItem('session'))
-// temporary
-const storedSession = {
-  isLoggedIn: true,
-  user: {
-    username: 'ahliesantiago',
-    firstName: 'Ahlie',
-    lastName: 'Santiago',
-    isAdmin: true,
-  }
-}
 const router = createBrowserRouter(
   createRoutesFromElements(
     // <Route path='/' element={<MainLayout />}>
     <Route path="/" element={
-        <SessionContext.Provider value={storedSession}>
-            <MainLayout />
-        </SessionContext.Provider>
+        <MainLayout />
+        // <SessionContext.Provider value={storedSession}>
+        //     <MainLayout />
+        // </SessionContext.Provider>
     }>
       <Route path="*" element={<NotFound />}></Route>
       <Route index element={<HomePage />} />
       <Route path='/profile/:username' element={<ProfilePage />} />
       <Route path='/admin' element={<AdminPage />} />
-      <Route path='/auth' element={<Auth />} />
+      <Route path='/auth' element={<AuthPage />} />
       <Route path='/new-user' element={<NewProfile />} />
+      <Route path='/dashboard' element={<DashboardPage />} />
+      <Route path='/logout' element={<Logout />} />
     </Route>
   )
 )

@@ -14,9 +14,11 @@ import {
   DatePicker,
   Form,
   Input,
-  Select
+  Select,
+  Switch
 } from 'antd';
 const { Option } = Select;
+const { TextArea } = Input;
 
 import '../../assets/styles/Auth.css';
 
@@ -48,7 +50,7 @@ const NewProfile = () => {
           },
         }}
       >
-        <h2>Before you can start connecting, please complete your profile...</h2>
+        <h2 className="fs-3">Before you can start connecting, please complete your profile...</h2>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
@@ -62,19 +64,16 @@ const NewProfile = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           labelAlign="left"
-          itemMarginBottom="10px"
         >
-          <Form.Item label="Nickname" name="nickname"
-            rules={[{ required: true, message: "Please input your nickname" }]}
-          >
-            <Input />
+          <Form.Item label="Nickname" name="nickname">
+            <Input onChange={(e) => console.log(e.target.value)} placeholder="What should we call you?" />
           </Form.Item>
           <Form.Item label="Gender" name="gender"
             rules={[{ required: true, message: "Please input your gender" }]}
           >
             <Select
               placeholder="Select how you identify"
-              // onChange={onGenderChange}
+              onChange={(e) => console.log(e)}
               allowClear
             >
               <Option value="Male">Male</Option>
@@ -84,8 +83,39 @@ const NewProfile = () => {
               <Option value="Other">Other</Option>
             </Select>
           </Form.Item>
+          <Form.Item label="Pronouns" name="pronouns">
+            <Select
+              placeholder="Select your pronouns"
+              // onChange={onGenderChange}
+              allowClear
+            >
+              <Option value="She/Her">She/Her</Option>
+              <Option value="He/Him">He/Him</Option>
+              <Option value="They/Them">They/Them</Option>
+              <Option value="Other">Other</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label="LGBT-friendly?" name="beliefIsLgbtFriendly" valuePropName="beliefIsLgbtFriendly">
+            <Switch />
+          </Form.Item>
           <Form.Item label="Location" name="location">
             <Input />
+          </Form.Item>
+          <Form.Item label="About" name="about">
+            <TextArea rows={4} />
+          </Form.Item>
+          <Form.Item label="Interests" name="interests">
+            <Select
+              mode="multiple"
+              allowClear
+              style={{
+                width: '100%',
+              }}
+              placeholder="Please select at least 3 interests"
+              defaultValue={[]}
+              // onChange={handleInterestSelection}
+              // options={options}
+            />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16, }}>

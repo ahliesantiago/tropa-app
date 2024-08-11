@@ -1,12 +1,20 @@
 /* eslint-disable */ // temporary
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import '../../assets/styles/Navbar.css'
 
 const Navbar = () => {
-  const [activePage, setActivePage] = useState();
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [activePage, setActivePage] = useState()
+  const [isSignedIn, setIsSignedIn] = useState(false)
+  const [signedInUser, setSignedInUser] = useState()
+
+  useEffect(() => {
+    setSignedInUser(localStorage.getItem('username'))
+    if (signedInUser) {
+      setIsSignedIn(true)
+    }
+  }, [signedInUser])
 
   return (
     <nav className='flex justify-between p-3'>
@@ -28,7 +36,7 @@ const Navbar = () => {
         )}
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
