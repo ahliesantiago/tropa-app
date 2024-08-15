@@ -1,27 +1,12 @@
-import Activities from "../components/Activities"
-import Users from "../components/Users/Users"
+import { useEffect } from 'react'
+import About from '../components/About'
+import Dashboard from '../components/Dashboard'
 
 const HomePage = () => {
+  const signedInUser = localStorage.getItem('username')
+
   return (
-    <>
-    <div className="text-center">
-      <h1 className="text-4xl lg:text-6xl xl:text-8xl font-semibold mt-6 xl:m-10">L4Tropa</h1>
-      <h2 className="text-3xl lg:text-5xl xl:text-6xl font-light mt-2 xl:m-10">Tara, <Activities />?</h2>
-      <div className="text-lg sm:text-2xl lg:text-4xl xl:text-5xl font-light my-1 lg:my-3">
-        <p className="lg:my-2 xl:my-5 md:inline-block md:mr-1">Busy? Shy? A little bit bitchy? No problem!</p>
-        <p className="lg:my-2 xl:my-5 md:inline-block">Find new <span className="italic font-medium">friends</span> that fit.</p>
-        <p className="lg:my-2 xl:my-5">Link up with like-minded people...</p>
-      </div>
-    </div>
-    <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light w-8/12 m-auto">
-      <p>... who share your hobbies.</p>
-      <p>... who want to hang out the same way you do.</p>
-      <p>... who might just be your forever person(s).</p>
-    </div>
-    <p className="border border-b-2 w-4/5 m-auto my-5"></p>
-    <h2 className="text-3xl text-center">You might be interested in...</h2>
-    <Users />
-    </>
+    signedInUser ? <Dashboard /> : <About />
   )
 }
 

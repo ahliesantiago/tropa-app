@@ -9,7 +9,6 @@ import HomePage from './pages/HomePage'
 import AdminPage from './pages/AdminPage'
 import AuthPage from './pages/Auth/AuthPage'
 import ProfilePage from './pages/ProfilePage'
-import DashboardPage from './pages/DashboardPage'
 import NotFound from './pages/NotFound'
 import MainLayout from './components/Layout/MainLayout'
 import NewProfile from './components/Profile/NewProfile'
@@ -30,7 +29,6 @@ const router = createBrowserRouter(
       <Route path='/admin' element={<AdminPage />} />
       <Route path='/auth' element={<AuthPage />} />
       <Route path='/new-user' element={<NewProfile />} />
-      <Route path='/dashboard' element={<DashboardPage />} />
       <Route path='/logout' element={<Logout />} />
     </Route>
   )

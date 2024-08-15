@@ -9,3 +9,25 @@
     }
   }
 }
+
+.ant-select{
+  border: 2px solid rgb(156 163 175);
+  border-radius: 12px;
+  padding: 4px;
+  height: 38px;
+  .ant-select-selection-item{
+    font-size: 16px;
+  }
+}
+.ant-select-selector, .ant-select-selection-search{
+  border: 0 !important;
+}
+
+.interestContainer{
+  display: inline-block;
+  position: relative;
+}
+.deleteButton{
+  position: absolute;
+  right: 5px;
+}

@@ -56,6 +56,7 @@ const Login = ({ setAction }) => {
         }}
       >
         <Form
+          className='authForms'
           name="basic"
           labelCol={{ span: 8 }}
           labelWrap

@@ -47,6 +47,7 @@ const userSchema = new mongoose.Schema({
   about: {
     type: String,
     minLength: 10,
+    maxLength: 200,
   },
   interests: [{
     type: mongoose.Schema.Types.ObjectId,

@@ -1,5 +1,3 @@
-import express from 'express'
-
 import { UserModel } from '../models/UserModel.js'
 import { generateToken } from '../util/generateToken.js'
 
@@ -75,7 +73,7 @@ export const Login = async (req, res) => {
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
-        isComplete: complete,
+        isComplete: complete, // will be used to signify if user's profile basics are complete
       })
     }else{
       return res.status(400).json({message: 'Incorrect username, email, or password'})

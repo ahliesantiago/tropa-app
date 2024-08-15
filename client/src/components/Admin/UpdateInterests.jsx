@@ -1,72 +1,72 @@
 import * as React from 'react'
-import axios from 'axios';
+import axios from 'axios'
 
-import Spinner from '../Spinner';
+import Spinner from '../Spinner'
 
 const UpdateInterests = ({action, interest, handleCancel, refreshInterests}) => {
-  const [categories, setCategories] = React.useState([]);
-  const [newInterestName, setNewInterestName] = React.useState('');
-  const [newInterestCategories, setNewInterestCategories] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [categories, setCategories] = React.useState([])
+  const [newInterestName, setNewInterestName] = React.useState('')
+  const [newInterestCategories, setNewInterestCategories] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
     if(action === 'edit'){
-      setNewInterestName(interest.interestName);
-      setNewInterestCategories(interest.categories);
+      setNewInterestName(interest.interestName)
+      setNewInterestCategories(interest.categories)
     }
 
     axios.get('http://localhost:8080/categories')
     .then((response) => {
-      setCategories(response.data.data);
+      setCategories(response.data.data)
     })
     .catch((error) => {
-      console.log("Error fetching categories from server", error);
-    });
-  }, []);
+      console.log("Error fetching categories from server", error)
+    })
+  }, [])
 
   const handleAddInterest = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     console.log(newInterestName, newInterestCategories)
     axios.post('http://localhost:8080/interests/new', {
       interestName: newInterestName,
       categories: newInterestCategories
     })
     .then(() => {
-      setLoading(false);
-      refreshInterests();
-      setNewInterestName('');
-      setNewInterestCategories([]);
+      setLoading(false)
+      refreshInterests()
+      setNewInterestName('')
+      setNewInterestCategories([])
     })
     .catch((error) => {
-      setLoading(false);
-      alert("Error adding new interest, please check console for more details.");
-      console.log(error);
-    });
-  };
+      setLoading(false)
+      alert("Error adding new interest, please check console for more details.")
+      console.log(error)
+    })
+  }
 
   const handleEditInterest = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     axios.put(`http://localhost:8080/interests/${interest._id}`, {
       interestName: newInterestName,
       categories: newInterestCategories
     })
     .then(() => {
-      setLoading(false);
-      refreshInterests();
-      handleCancel();
+      setLoading(false)
+      refreshInterests()
+      handleCancel()
     })
     .catch((error) => {
-      setLoading(false);
-      alert("Error updating interest, please check console for more details.");
-      console.log(error);
-    });
-  };
+      setLoading(false)
+      alert("Error updating interest, please check console for more details.")
+      console.log(error)
+    })
+  }
 
   const handleSelectCategories = (e) => {
     if(newInterestCategories.includes(e.target.value)){
-      setNewInterestCategories(newInterestCategories.filter(category => category !== e.target.value));
+      setNewInterestCategories(newInterestCategories.filter(category => category !== e.target.value))
     }else{
-      setNewInterestCategories([...newInterestCategories, e.target.value]);
+      setNewInterestCategories([...newInterestCategories, e.target.value])
     }
   }
 
@@ -121,4 +121,4 @@ const UpdateInterests = ({action, interest, handleCancel, refreshInterests}) => 
   )
 }
 
-export default UpdateInterests;
+export default UpdateInterests

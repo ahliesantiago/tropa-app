@@ -1,33 +1,33 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import {
   Button,
   ConfigProvider,
   DatePicker,
   Form,
   Input
-} from 'antd';
+} from 'antd'
 
 const Register = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [username, setUsername] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
+  const [birthday, setBirthday] = useState('')
 
   const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+    console.log('Success:', values)
+  }
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+    console.log('Failed:', errorInfo)
+  }
 
   const handleAddUser = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     axios.post('http://localhost:8080/users/new', {
       isAdmin: false,
       username,
@@ -38,12 +38,13 @@ const Register = () => {
       birthday,
     })
     .then((response) => {
-      navigate('/new-user');
-      console.log(response);
+      localStorage.setItem('username', response.data.username)
+      navigate('/new-user')
+      console.log(response)
     })
     .catch((error) => {
-      alert("Error signing up.");
-      console.log(error);
+      alert("Error signing up.")
+      console.log(error)
     })
   }
 
@@ -59,6 +60,7 @@ const Register = () => {
       }}
     >
       <Form
+        className='authForms'
         name="basic"
         labelCol={{ span: 8 }}
         labelWrap
